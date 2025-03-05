@@ -7,6 +7,15 @@ def load_from_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         conll_text = file.read()
         sentences = [sentence.split('\n') for sentence in conll_text.strip().split('\n\n')]
+        if file_path.startswith('sample_reference'):  # remove NER tag for sample_reference files to test
+            new_sentences = []
+            for sentence in sentences:
+                new_sentence = []
+                for token in sentence:
+                    new_sentence.append(token.split(None, 1)[0])
+                new_sentences.append(new_sentence)
+            sentences = new_sentences
+
         return sentences
 
 
